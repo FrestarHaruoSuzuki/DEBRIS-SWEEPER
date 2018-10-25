@@ -7,30 +7,49 @@ public class RocketController : MonoBehaviour {
     public GameObject bulletPrefab;
     float leftLimit = -3;
     float rightLimit = 3;
-    float threshold = 0.2f;
+    float targetX;
+    bool moveToLeft;
+    bool moveToRight;
+
+    // Use this for initialization
+    void Start() {
+        targetX = transform.position.x;
+        moveToLeft = false;
+        moveToRight = false;
+    }
 
     // Update is called once per frame
     void Update() {
-        bool toLeft = Input.GetKey(KeyCode.LeftArrow) || (Input.acceleration.x < -threshold);
-        bool toRight = Input.GetKey(KeyCode.RightArrow) || (Input.acceleration.x > threshold);
-        bool reqShoot = Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0);
-
         float speed = 0.1f * 60 * Time.deltaTime;
 
-        if (toLeft) {
+        if (Input.GetKey(KeyCode.LeftArrow)) {
+            targetX = Mathf.Max(transform.position.x - speed, leftLimit);
+        }
+        else if (Input.GetKey(KeyCode.RightArrow)) {
+            targetX = Mathf.Min(transform.position.x + speed, rightLimit);
+        }
+
+        bool reqShoot = Input.GetKeyDown(KeyCode.Space);
+
+        if (Input.GetMouseButtonDown(0)) {
+            reqShoot = true;
+            targetX = Camera.main.ScreenToWorldPoint(Input.mousePosition).x;
+        }
+
+        if (targetX < transform.position.x) {
             float deltaX = -speed;
             float sampleX = transform.position.x + deltaX;
-            if (sampleX < leftLimit) {
-                deltaX = leftLimit - transform.position.x;
+            if (sampleX < targetX) {
+                deltaX = targetX - transform.position.x;
             }
             transform.Translate(deltaX, 0, 0);
         }
 
-        if (toRight) {
+        if (targetX > transform.position.x) {
             float deltaX = speed;
             float sampleX = transform.position.x + deltaX;
-            if (sampleX > rightLimit) {
-                deltaX = rightLimit - transform.position.x;
+            if (sampleX > targetX) {
+                deltaX = targetX - transform.position.x;
             }
             transform.Translate(deltaX, 0, 0);
         }
