@@ -8,14 +8,10 @@ public class RocketController : MonoBehaviour {
     float leftLimit = -3;
     float rightLimit = 3;
     float targetX;
-    bool moveToLeft;
-    bool moveToRight;
 
     // Use this for initialization
     void Start() {
         targetX = transform.position.x;
-        moveToLeft = false;
-        moveToRight = false;
     }
 
     // Update is called once per frame
