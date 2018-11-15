@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+//
+// ゲーム終了時の演出追加のために
+// 状態のステート制御を行います。
+//
 public class GameDirector : MonoBehaviour {
 
     enum Mode {
-        main,
-        result
+        main,   // ゲームプレイ中
+        result  // 結果表示中
     }
 
     ScorePool scorePool;
@@ -19,10 +23,16 @@ public class GameDirector : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
+        // アタック時間を設定
         remainTime = 15;
+
+        // ゲームプレイから始める
         mode = Mode.main;
+
+        // uiの取り置き
         ui = GameObject.Find("Canvas").GetComponent<UIController>();
 
+        // スコアプールを準備
         scorePool = new ScorePool();
         scorePool.Load();
     }
@@ -30,33 +40,48 @@ public class GameDirector : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         switch (mode) {
-            case Mode.main:
+            case Mode.main: // ゲームプレイ中
                 UpdateGameModeMain();
                 break;
-            case Mode.result:
+            case Mode.result:   // 結果表示中
                 UpdateGameModeResult();
                 break;
         }
 
     }
 
+    // ゲームプレイ中の更新処理
     void UpdateGameModeMain() {
         remainTime -= Time.deltaTime;
         if (remainTime <= 0) {
             // ゲーム終了
             remainTime = 0;
             waitTime = 0;
+
+            // 結果表示演出に移行
             mode = Mode.result;
+
+            // ユーザーの操作を禁止
             GameObject.Find("Rocket").GetComponent<RocketController>().enabled = false;
+
+            // スコアのカウントを禁止
             ui.SetEnableScoreCount(false);
+
+            // トータルスコアの取得と表示
             int totalScore = ui.GetTotalScore();
             ui.SetResult(totalScore);
+
+            // スコアプールにスコアを登録
             scorePool.SetScore(totalScore);
             scorePool.Save();
         }
+        // 残り時間を表示
         ui.SetRemainTime(remainTime);
     }
 
+    // 結果演出中の更新処理
+    // 結果表示の最初の数秒は、連打による急激な画面遷移を防ぐため
+    // ユーザーの入力を受け付けません。
     void UpdateGameModeResult() {
         waitTime += Time.deltaTime;
         if (waitTime < 1.5f) {

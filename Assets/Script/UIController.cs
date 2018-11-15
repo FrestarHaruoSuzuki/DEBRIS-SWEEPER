@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+//
+// ゲーム中のUI表示関係に関わるクラスです。
+//
 public class UIController : MonoBehaviour {
 
     int totalScore = 0;
@@ -14,6 +17,8 @@ public class UIController : MonoBehaviour {
     float remainTime;
     bool enableScoreCount;
 
+    // スコア計算を行い、トータルスコアに加算します。
+    // 加算したスコアを返します。
     public int AddScore(int scoreSeed) {
         if (!enableScoreCount) {
             return 0;
@@ -26,26 +31,32 @@ public class UIController : MonoBehaviour {
         return additionalScore;
     }
 
+    // 外した弾の数をカウントします。
     public void CountUpLostBullet() {
         lostBulletNumber += 1;
     }
 
+    // ヒットした弾の数をカウントします。
     public void CountUpHitBullet() {
         hitBulletNumber += 1;
     }
 
+    // 残り時間を設定します。
     public void SetRemainTime(float newRemainTime) {
         remainTime = newRemainTime;
     }
 
+    // 結果スコアを表示します。
     public void SetResult(int resultScore) {
         resultText.GetComponent<Text>().text = "RESULT\n" + resultScore.ToString();
     }
 
+    // トータルスコアを取得します。
     public int GetTotalScore() {
         return totalScore;
     }
 
+    // スコアカウントの加算の可否を指定します。
     public void SetEnableScoreCount(bool flag) {
         enableScoreCount = flag;
     }

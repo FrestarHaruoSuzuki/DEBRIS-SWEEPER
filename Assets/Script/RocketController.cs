@@ -2,6 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//
+// プレイヤーが操作するアバター
+// イメージはデブリ排除の作業宇宙船
+// キー入力の場合は直接操作できるが
+// タップの場合は弾を出しつつそこまで移動する。
+//
 public class RocketController : MonoBehaviour {
 
     public GameObject bulletPrefab;
@@ -16,7 +22,7 @@ public class RocketController : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        float speed = 0.1f * 60 * Time.deltaTime;
+        float speed = 6.0f * Time.deltaTime;
 
         if (Input.GetKey(KeyCode.LeftArrow)) {
             targetX = Mathf.Max(transform.position.x - speed, leftLimit);
@@ -32,6 +38,7 @@ public class RocketController : MonoBehaviour {
             targetX = Camera.main.ScreenToWorldPoint(Input.mousePosition).x;
         }
 
+        // 現在の位置がターゲットより右なら左に補正
         if (targetX < transform.position.x) {
             float deltaX = -speed;
             float sampleX = transform.position.x + deltaX;
@@ -41,6 +48,7 @@ public class RocketController : MonoBehaviour {
             transform.Translate(deltaX, 0, 0);
         }
 
+        // 現在の位置がターゲットより左なら右に補正
         if (targetX > transform.position.x) {
             float deltaX = speed;
             float sampleX = transform.position.x + deltaX;

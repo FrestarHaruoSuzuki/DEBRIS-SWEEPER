@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+//
+// デブリ破壊時にローカルスコアを表示する
+// 破壊された位置からポップしフェードアウトする
+//
 public class LocalScoreController : MonoBehaviour {
 
     float elapsedTime;
@@ -10,7 +14,7 @@ public class LocalScoreController : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
-        velocity = new Vector3(0, 10, 0);
+        velocity = Vector3.up * 10.0f;
         elapsedTime = 0;
     }
 
