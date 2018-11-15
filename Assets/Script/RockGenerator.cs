@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//
+// RockとあるがDebris
+// 0.2秒ごとにランダムな種類のデブリを発生させる
+//
 public class RockGenerator : MonoBehaviour {
 
     public GameObject rockPrefab;
@@ -16,6 +20,8 @@ public class RockGenerator : MonoBehaviour {
         InvokeRepeating("GenRock", 0.1f, 0.2f);
     }
 
+    // プレファブを元にデブリを作成。
+    // タイマーから呼ばれる
     void GenRock() {
         Vector3 startPosition = new Vector3(-2.5f + 5 * Random.value, 6, 0);
         GameObject rock = Instantiate(rockPrefab, startPosition, Quaternion.identity);

@@ -4,12 +4,18 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+//
+// タイトルの制御
+// 実質的にDirector
+// ボタンの演出などを自力で行っているため
+// 状態のステート制御を行います。
+//
 public class TitleController : MonoBehaviour {
 
     enum Mode {
-        start,
-        main,
-        exit
+        start,  // 開始状態
+        main,   // 入力待ち
+        exit    // 終了状態
     }
 
     public GameObject startButton;
@@ -22,6 +28,7 @@ public class TitleController : MonoBehaviour {
     bool flip;
     Text startButtonText;
 
+    // スコアリストを表示
     void SetScoreList(ScorePool scorePool) {
         string scoreText = "";
         for (int i = 0; i < 5; ++i) {
@@ -38,6 +45,7 @@ public class TitleController : MonoBehaviour {
         scoreListBox.GetComponent<Text>().text = scoreText;
     }
 
+    // スタートボタンのフリップ表示
     void UpdateFlipStartButton(float waitTimeMax) {
         waitTime += Time.deltaTime;
         if (waitTime > waitTimeMax) {
@@ -73,6 +81,7 @@ public class TitleController : MonoBehaviour {
         }
     }
 
+    // 連打対応のため、数秒入力を無視します。
     void UpdateStart() {
         waitTime += Time.deltaTime;
         if (waitTime < 1.5f) {
@@ -84,6 +93,7 @@ public class TitleController : MonoBehaviour {
         flip = true;
     }
 
+    // 入力待ちを行います
     void UpdateMain() {
         UpdateFlipStartButton(1.2f);
 
@@ -93,6 +103,7 @@ public class TitleController : MonoBehaviour {
         }
     }
 
+    // ボイスが終わるのを待って、ゲームに遷移します。
     void UpdateExit() {
         UpdateFlipStartButton(0.1f);
         if (GetComponent<AudioSource>().isPlaying) {
@@ -101,13 +112,16 @@ public class TitleController : MonoBehaviour {
         SceneManager.LoadScene("GameScene");
     }
 
+    // スタートボタンを押した時に呼ばれる。
     public void OnClickStart() {
-        if (mode != Mode.exit) {
-            GetComponent<AudioSource>().PlayOneShot(voices[Random.Range(0, voices.Length)]);
-            mode = Mode.exit;
+        if (mode == Mode.exit) {
+            return;
         }
+        GetComponent<AudioSource>().PlayOneShot(voices[Random.Range(0, voices.Length)]);
+        mode = Mode.exit;
     }
 
+    // デバック用にスコアリストのクリアを行う。
     public void OnClickDebug() {
         myScorePool.Clear();
         SetScoreList(myScorePool);

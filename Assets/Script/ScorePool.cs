@@ -6,6 +6,10 @@ using System;
 using System.IO;
 using System.Text;
 
+//
+// ハイスコアの貯蔵をデバイス内に行う
+// シリアライズにはJSONを使用する
+//
 [Serializable]
 public class ScorePool {
     public int[] List = new int[5];

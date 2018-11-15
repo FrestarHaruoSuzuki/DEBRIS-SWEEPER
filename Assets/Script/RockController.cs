@@ -3,29 +3,40 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+//
+// Rockとなっているが正式にはDebris
+//
 public class RockController : MonoBehaviour {
 
     public GameObject localScorePrefab;
-    float fallSpeed;
+    Vector3 fallVelocity;
     float rotSpeed;
     int scoreSeed = 100;
 
+    // デブリの破壊開始処理をまとめたもの
     public void StartDestroy() {
+        // キャンバスとUIを確保
         GameObject canvas = GameObject.Find("Canvas");
         UIController ui = canvas.GetComponent<UIController>();
+        // ヒットした弾をカウントする
         ui.CountUpHitBullet();
+        // 点数をポップする
         int deltaScore = ui.AddScore(scoreSeed);
         Vector2 firstPosition = RectTransformUtility.WorldToScreenPoint(Camera.main, transform.position);
         GameObject localScore = Instantiate(localScorePrefab, firstPosition, Quaternion.identity);
         localScore.transform.SetParent(canvas.transform);
         localScore.GetComponent<Text>().text = deltaScore.ToString("D");
+        // 自身を破壊する
         Destroy(gameObject);
     }
 
     // Use this for initialization
     void Start() {
-        fallSpeed = (0.01f + 0.1f * Random.value) * 60;
-        rotSpeed = (5f + 3f * Random.value) * 60;
+        // 落ちる速度をばらけさせる
+        float fallSpeed = 0.6f + 6.0f * Random.value;
+        fallVelocity = Vector3.down * fallSpeed;
+        // 回転をばらけさせる
+        rotSpeed = 300f + 180f * Random.value;
         if (Random.value < 0.5f) {
             rotSpeed = -rotSpeed;
         }
@@ -33,9 +44,11 @@ public class RockController : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        transform.Translate(0, -fallSpeed * Time.deltaTime, 0, Space.World);
+        Vector3 deltaFallVelocity = fallVelocity * Time.deltaTime;
+        transform.Translate(deltaFallVelocity, Space.World);
         transform.Rotate(0, 0, rotSpeed * Time.deltaTime);
 
+        // デブリの退場判定
         if (transform.position.y < -5.5f) {
             Destroy(gameObject);
         }
