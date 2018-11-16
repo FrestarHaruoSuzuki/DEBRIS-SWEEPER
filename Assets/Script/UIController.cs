@@ -12,6 +12,7 @@ public class UIController : MonoBehaviour {
     GameObject scoreText;
     GameObject timeText;
     GameObject resultText;
+    GameObject countDownText;
     int lostBulletNumber = 0;
     int hitBulletNumber = 0;
     float remainTime;
@@ -51,6 +52,21 @@ public class UIController : MonoBehaviour {
         resultText.GetComponent<Text>().text = "RESULT\n" + resultScore.ToString();
     }
 
+    // カウントダウン演出を表示します。
+    public void SetEffectCountDown(float remainTime) {
+        int dispSecond = Mathf.FloorToInt(remainTime) + 1;  // 負数は考えていない。
+        float alpha = remainTime % 1.0f;
+        float fontSize = 88.0f + (alpha * 300.0f);
+        var textComponent = countDownText.GetComponent<Text>();
+
+        Color c = textComponent.color;
+        textComponent.color = new Color(c.r, c.g, c.b, alpha);
+
+        textComponent.fontSize = Mathf.FloorToInt(fontSize);
+
+        textComponent.text = dispSecond.ToString();
+    }
+
     // トータルスコアを取得します。
     public int GetTotalScore() {
         return totalScore;
@@ -67,6 +83,7 @@ public class UIController : MonoBehaviour {
         scoreText = GameObject.Find("Score");
         timeText = GameObject.Find("Time");
         resultText = GameObject.Find("Result");
+        countDownText = GameObject.Find("CountDown");
     }
 
     // Update is called once per frame
