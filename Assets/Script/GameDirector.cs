@@ -53,30 +53,48 @@ public class GameDirector : MonoBehaviour {
     // ゲームプレイ中の更新処理
     void UpdateGameModeMain() {
         remainTime -= Time.deltaTime;
+
+        UpdateEffectCountDown();
+
         if (remainTime <= 0) {
-            // ゲーム終了
-            remainTime = 0;
-            waitTime = 0;
-
-            // 結果表示演出に移行
-            mode = Mode.result;
-
-            // ユーザーの操作を禁止
-            GameObject.Find("Rocket").GetComponent<RocketController>().enabled = false;
-
-            // スコアのカウントを禁止
-            ui.SetEnableScoreCount(false);
-
-            // トータルスコアの取得と表示
-            int totalScore = ui.GetTotalScore();
-            ui.SetResult(totalScore);
-
-            // スコアプールにスコアを登録
-            scorePool.SetScore(totalScore);
-            scorePool.Save();
+            // 時間が過ぎたら終了処理
+            ExitGameModeMain();
         }
         // 残り時間を表示
         ui.SetRemainTime(remainTime);
+    }
+
+    // 終了時間の表示制御
+    void UpdateEffectCountDown() {
+        if (remainTime >= 3.0f) {
+            return; // 想定時間外なら何もしない。
+        }
+        ui.SetEffectCountDown(remainTime);
+    }
+
+    // ゲームプレイモードの終了処理
+    // 今の所結果表示に繋げるだけです。
+    void ExitGameModeMain() {
+        // ゲーム終了
+        remainTime = 0;
+        waitTime = 0;
+
+        // 結果表示演出に移行
+        mode = Mode.result;
+
+        // ユーザーの操作を禁止
+        GameObject.Find("Rocket").GetComponent<RocketController>().enabled = false;
+
+        // スコアのカウントを禁止
+        ui.SetEnableScoreCount(false);
+
+        // トータルスコアの取得と表示
+        int totalScore = ui.GetTotalScore();
+        ui.SetResult(totalScore);
+
+        // スコアプールにスコアを登録
+        scorePool.SetScore(totalScore);
+        scorePool.Save();
     }
 
     // 結果演出中の更新処理
