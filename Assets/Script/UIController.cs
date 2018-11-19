@@ -9,6 +9,7 @@ using UnityEngine.UI;
 public class UIController : MonoBehaviour {
 
     int totalScore = 0;
+    GameObject BGMask;
     GameObject scoreText;
     GameObject timeText;
     GameObject resultText;
@@ -49,6 +50,7 @@ public class UIController : MonoBehaviour {
 
     // 結果スコアを表示します。
     public void SetResult(int resultScore) {
+        BGMask.GetComponent<Image>().enabled = true;
         resultText.GetComponent<Text>().text = "RESULT\n" + resultScore.ToString();
     }
 
@@ -80,10 +82,13 @@ public class UIController : MonoBehaviour {
     // Use this for initialization
     void Start() {
         enableScoreCount = true;
+        BGMask = GameObject.Find("BGMask");
         scoreText = GameObject.Find("Score");
         timeText = GameObject.Find("Time");
         resultText = GameObject.Find("Result");
         countDownText = GameObject.Find("CountDown");
+
+        BGMask.GetComponent<Image>().enabled = false;
     }
 
     // Update is called once per frame
