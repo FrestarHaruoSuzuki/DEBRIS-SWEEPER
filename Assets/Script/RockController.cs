@@ -24,7 +24,7 @@ public class RockController : MonoBehaviour {
         int deltaScore = ui.AddScore(scoreSeed);
         Vector2 firstPosition = RectTransformUtility.WorldToScreenPoint(Camera.main, transform.position);
         GameObject localScore = Instantiate(localScorePrefab, firstPosition, Quaternion.identity);
-        localScore.transform.SetParent(canvas.transform);
+        localScore.transform.SetParent(canvas.transform, false);
         localScore.GetComponent<Text>().text = deltaScore.ToString("D");
         // 自身を破壊する
         Destroy(gameObject);
