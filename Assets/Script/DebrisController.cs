@@ -6,7 +6,7 @@ using UnityEngine.UI;
 //
 // Rockとなっているが正式にはDebris
 //
-public class RockController : MonoBehaviour {
+public class DebrisController : MonoBehaviour {
 
     public GameObject localScorePrefab;
     Vector3 fallVelocity;

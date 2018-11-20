@@ -50,7 +50,7 @@ public class BulletController : MonoBehaviour {
         GameObject effect = Instantiate(explosionPrefab, transform.position, Quaternion.identity);
         Destroy(effect, 1.0f);
 
-        collision.gameObject.GetComponent<RockController>().StartDestroy();
+        collision.gameObject.GetComponent<DebrisController>().StartDestroy();
 
         reqDestroy = true;
     }

@@ -398,7 +398,7 @@ GameObject:
   - component: {fileID: 233105563}
   - component: {fileID: 233105564}
   m_Layer: 0
-  m_Name: Director
+  m_Name: TitleDirector
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -955,7 +955,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Version 1.2.0
+  m_Text: Version 1.2.1
 --- !u!222 &1240737481
 CanvasRenderer:
   m_ObjectHideFlags: 0

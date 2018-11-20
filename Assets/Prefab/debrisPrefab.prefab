@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 114095286196355848}
   - component: {fileID: 58974698926477260}
   m_Layer: 0
-  m_Name: rockPrefab
+  m_Name: debrisPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

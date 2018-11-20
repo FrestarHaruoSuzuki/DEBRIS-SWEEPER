@@ -6,11 +6,10 @@ using UnityEngine.UI;
 
 //
 // タイトルの制御
-// 実質的にDirector
 // ボタンの演出などを自力で行っているため
 // 状態のステート制御を行います。
 //
-public class TitleController : MonoBehaviour {
+public class TitleDirector : MonoBehaviour {
 
     enum Mode {
         start,  // 開始状態

@@ -211,7 +211,7 @@ GameObject:
   - component: {fileID: 252710061}
   - component: {fileID: 252710060}
   m_Layer: 0
-  m_Name: Rocket
+  m_Name: Sweeper
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -656,7 +656,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1d774d74822b41878f6e96693a10c28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rockPrefab: {fileID: 1338985094585206, guid: 65c13163d4ed0403b8c5d5ddaa560b5a, type: 2}
+  debrisPrefab: {fileID: 1338985094585206, guid: 65c13163d4ed0403b8c5d5ddaa560b5a,
+    type: 2}
 --- !u!82 &1047610664
 AudioSource:
   m_ObjectHideFlags: 0
