@@ -83,7 +83,7 @@ public class GameDirector : MonoBehaviour {
         mode = Mode.result;
 
         // ユーザーの操作を禁止
-        GameObject.Find("Rocket").GetComponent<RocketController>().enabled = false;
+        GameObject.Find("Sweeper").GetComponent<SweeperController>().enabled = false;
 
         // スコアのカウントを禁止
         ui.SetEnableScoreCount(false);

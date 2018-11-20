@@ -8,7 +8,7 @@ using UnityEngine;
 // キー入力の場合は直接操作できるが
 // タップの場合は弾を出しつつそこまで移動する。
 //
-public class RocketController : MonoBehaviour {
+public class SweeperController : MonoBehaviour {
 
     public GameObject bulletPrefab;
     float leftLimit = -3;
